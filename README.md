@@ -129,3 +129,84 @@ sudo service haproxy start
 This will enable to run OctoprintUI using `only the IP Address` and not the other port such as `:5000`
 
 In case of issues persisting, consider restarting the module and retry
+
+## Steps to Install Klipper in BTT-M4P-CB1 using KIAUH
+
+1. Open the SSH server and login into the CB1 and head onto the terminal.
+2. In the terminal, enter in:
+```
+git clone https://github.com/th33xitus/kiauh.git
+``` 
+This installs `kiauh`, which is the script that assists in installing different firmwares and 3D printer web interfaces.
+
+3. Next in the terminal, enter:
+```
+./kiauh/kiauh.sh
+```
+
+This will redirect to the KIAUH interface. Once you're in the KIAUH interface, the left-hand side indicates the main navigation menu. And on the right side, you'll find the status of all the software available for the system. Currently, we have the Octoprint interface as per the previous section. We'll need to install Klipper on CB1.
+
+![image](https://user-images.githubusercontent.com/80109965/234785061-6ad4087f-eb24-42ee-84c8-dc7a66b93924.png)
+
+4. Input numerical 1 and press enter. It'll take you to the Installation menu.
+
+5. Klipper is present in the Firmware and API section. Input and enter 1. It'll begin the Klipper installation process.
+
+![image](https://user-images.githubusercontent.com/80109965/234785678-9eb4f885-45c1-499b-a3d9-b47e70e20e81.png)
+
+6. Select the Python version as Python 3.x by inputting 1. It's a stable version, and will give you predictable results.
+
+![image](https://user-images.githubusercontent.com/80109965/234786026-400285ca-e3a8-4ec9-832c-d1fe84d2fb3c.png)
+
+7. Select the number of Klipper instances to set up. By default, the value is 1. Basically, this step lets you set up multiple Klipper instances for multiple 3D printers on a single CB1. The more instances you add, the more stress you'll put on your CB1. For this guide, we're keeping it at 1.
+
+![image](https://user-images.githubusercontent.com/80109965/234786252-258142d0-f395-40ae-8967-eba36c52ef6a.png)
+
+8. The Installation process should look like this:
+
+![image](https://user-images.githubusercontent.com/80109965/234786859-a081dc93-1bd2-401f-8b94-4dff81ebfa37.png)
+
+9. After successful installation, it should show up something like this:
+
+![image](https://user-images.githubusercontent.com/80109965/234788018-257337a3-1ce5-4563-93de-7919b0ad88ed.png)
+
+10. Press `B` to go back to the home interface of `KIAUH` and the main menu should show that `Klipper` is installed and in the repo `Klipper3d/klipper`
+
+![image](https://user-images.githubusercontent.com/80109965/234788953-0ba800ac-e98b-4c2b-948e-34f4b614d9d9.png)
+
+11. Press `Q` to quit and return to the terminal.
+
+## Steps to Configure Klipper after Installation
+
+1. Open the SSH server and log into the CB1. In the terminal, type in:
+
+```
+cd ~/klipper/
+make menuconfig
+```
+
+2. Compile with the configuration shown below(if the options below is not available, 
+please update you Klipper source code to the newest version):
+
+* [*] Enable extra low-level configuration options 
+* Micro-controller Architecture (STMicroelectronics STM32) ---> 
+* Processor model (STM32G0B1) ---> 
+* Bootloader offset (8KiB bootloader) ---> 
+* Clock Reference (8 MHz crystal) ---> 
+* Communication interface (USB (on PA11/PA12)) --->
+
+![image](https://user-images.githubusercontent.com/80109965/234809363-9ac87bb1-f130-48cd-a2af-c6dc5cad3371.png)
+
+3. Press `Q` to exit, and `Yes [Y]` when asked to save the configuration
+
+4. Run `make` to compile firmware，”klipper.bin” file will be generated in 
+`home/biqu/klipper/out` folder when make is finished, download it onto your 
+computer using the ssh application.
+
+
+![image](https://user-images.githubusercontent.com/80109965/234809164-5a1b3ac7-bd33-49a6-8b44-9457fdbc3e0b.png)
+
+![image](https://user-images.githubusercontent.com/80109965/234810234-4e13aa1e-b5ca-4558-bdd6-997e9167a826.png)
+
+
+
