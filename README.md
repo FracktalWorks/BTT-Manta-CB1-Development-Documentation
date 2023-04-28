@@ -101,6 +101,46 @@ Setup on Raspbian is as follows:
 ```
 biqu@BTT-CB1 ~ $ sudo apt install haproxy
 ```
+In `/etc/haproxy/haproxy.cfg` copy down the configuration as per the versions:
+
+
+for Haproxy 2.x (Debian 11, Bullseye etc.):
+
+```
+global
+        maxconn 4096
+        user haproxy
+        group haproxy
+        daemon
+        log 127.0.0.1 local0 debug
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+        option  dontlognull
+        retries 3
+        option redispatch
+        option http-server-close
+        option forwardfor
+        maxconn 2000
+        timeout connect 5s
+        timeout client  15min
+        timeout server  15min
+
+frontend public
+        bind :::80 v4v6
+        use_backend webcam if { path_beg /webcam/ }
+        default_backend octoprint
+
+backend octoprint
+        option forwardfor
+        server octoprint1 127.0.0.1:5000
+
+backend webcam
+        http-request replace-path /webcam/(.*)   /\1
+        server webcam1  127.0.0.1:8080
+```
 
 For more reference on the Haproxy 2.x and 1.x configuration, refer here: https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspberry-pi-os-debian/2337#make-everything-accessible-on-port-80-4
 
