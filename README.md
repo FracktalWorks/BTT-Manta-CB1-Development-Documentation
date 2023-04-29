@@ -170,6 +170,22 @@ This will enable to run OctoprintUI using `only the IP Address` and not the othe
 
 In case of issues persisting, consider restarting the module and retry
 
+### Configuring OctoPrint settings
+
+After creating the user profile for the first time, certain configuration is required for the features in the octoprint. 
+
+1. In the `Octoprint settings (wrench symbol)`, select the `Serial Connection` section, and under the `General` tab, mention the serial port path `/home/biqu/printer_data/comms/klippy.serial` in the `Additional serial ports` box under the `Connection` tab. 
+
+Note: In usual cases of connecting Klipper when connecting with a regular RaspberryPi, the serial port is usually '/tmp/printer' that the klipper documentation suggests, however in the case of BTT CB1, it generates different folders, hence the serial port is to be defined accordingly.
+
+2. Set the Serial Port to either `AUTO` or the `/home/biqu/printer_data/comms/klippy.serial` which has been successfully detected by the port. Set the Baudrate to `250000`. 
+
+3. Select the `Auto-connect to printer on server start` option.
+
+4. Under `Blacklisted serial ports`, enter `/dev/ttyS*` in order to remove those existing serial ports under the serial ports option.
+
+5. In the main settings tab, select `Webcam & Timelapse` tab, under the `Webcam` section, check on the `Enable webcam support`. Below it, in the `Stream URL` box, enter in `/webcam/?action=stream` in order to activate the camera stream, if a Pi-based camera is connected.
+
 ## Steps to Install Klipper in BTT-M4P-CB1 using KIAUH
 
 1. Open the SSH server and login into the CB1 and head onto the terminal.
@@ -248,5 +264,58 @@ computer using the ssh application.
 
 ![image](https://user-images.githubusercontent.com/80109965/234810234-4e13aa1e-b5ca-4558-bdd6-997e9167a826.png)
 
+5. After the `klipper.bin` is generated, access the `SFTP` window using any `SSH` client and find the `klipper.bin` file and download it into the system.
 
+6. Then rename the `klipper.bin` to `firmware.bin` in the system. Remove the SD-card from the board and then access it using an SD-card reader in the system, and copy the `firmware.bin` into the SD-card.
 
+7. After the SD card is flashed with the firmware.bin, eject the card and put it back into the motherboard. After this, you can expect certain possibilities, which  are listed below:
+
+#### Possibility 1
+
+1. The board converts the `firmware.bin` file into `firmware.cur` internally on its own. 
+
+2. After that, get its serial ID by typing in the terminal of the SSH server: `ls /dev/serial/by-id/`. Copy the serial-ID that is generated and save it. This ID is later required to type in into the printer cfg file.
+
+3. We have to update the firmware using the DFU method, by typing in `make flash FLASH_DEVICE=/dev/serial/by-id/xxx` which runs the bootloader and flashes the firmware and updates it. 
+
+4. After the `file download successful` appears, ignore the other error messages that occurs below.
+
+#### Possibility 2
+
+1. After the SD-card is inserted into the board after the `firmware.bin` is pasted, there is a possibility that the board does not convert it to `firmware.cur` file. However this will not cause any functional issues.
+
+2. Similarly, generate the serial ID by typing in 'ls /dev/serial/by-id/`, and it will still generate an ID. Copy down the ID for future uses and purposes.
+
+3. The flashing and updating of firmware using the DFU method may not be possible, due to reasons giving error during the `make flash FLASH_DEVICE= /dev/serial/by-id/xxx` process, where it does not recognise the serial ID, but this does not cause any issues in the future.
+
+4. The generated serial ID can still be put in the printer.cfg, which was generated previously itself when klipper was flashed.
+
+## OctoKlipper plug-in installing and setting up
+
+1. Initially, in the terminal of the SSH server terminal, install the wheel package of the Octoprint, for smooth install of the OctoKlipper plug-in, using the command `~/OctoPrint/venv/bin/pip install wheel`. After installation, head back to IP-address of the OctoPrint.
+
+2. In the OctoPrint settings, head to `Plugin Manager` tab, where the present plugins will be displayed.
+
+3. At the top right options, click on `+ Get More`, search `OctoKlipper` in the searchbar, and select `Install`. The plugin will be successfully installed.
+
+4. Under the settings tab, in the `Plugins` subtab, the OctoKlipper would have been updated and present.
+
+5. In the OctoKlipper tab, some of the settings are to be made up. Under the `Basic` section, update the serial port to `/home/biqu/printer_data/comms/klippy.serial` 
+
+6. Deselect the `Replace Connection Panel` in order to not replace the other connection options that are available in the Connection tab.
+
+7. Select the `Show Short Messages 'on NavBar' and 'on SideBar'`.
+
+8. Under the `Klipper Config Directory` box, enter the pathway as `/home/biqu/printer_data/config/`, since in the case of BTT CB1, the `printer.cfg` is by default read from here.
+
+9. In the `Klipper Base Config Filename` write in the filename as `printer.cfg`.
+
+10. In the `Klipper Log File` enter the pathway as `/home/biqu/printer_data/logs/klippy.log`, as the log file is present in this directory. this will access the `printer.cfg` file that is present in this directory.
+
+## Other Plugins required for OctoPrint:
+
+The following plugins can be found in the `Plugin Manager` in the OctoPrint settings tab and on the top right, click on `+ Get More` and then search the following:
+
+1. `Firmware Updater`
+
+2. `Upload Anything`
