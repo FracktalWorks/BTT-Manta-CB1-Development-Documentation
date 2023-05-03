@@ -19,6 +19,47 @@ https://github.com/bigtreetech/CB1
 
 Possibly refer this to install X11 and touch screen interface: https://github.com/jordanruthe/KlipperScreen
 
+Steps to install the OS image:
+
+1. If BIGTREETECH CB1 core board is used, You can only download and install the system image provided by BIGTREETECH:
+
+https://github.com/bigtreetech/CB1/releases
+
+In the above link, multiple assets of image files will be found. Make sure the image file having an extension of `img.xz` and a `CB1_Debian_minimal_kernel` with the latest verison is used.
+
+2. Install the official Raspberry Pi Imager: https://www.raspberrypi.com/software/. The system image of CB1 can also be written with this software.
+
+3. Plug the Micro SD card into the computer via a card reader.
+
+4. Select Operating system:
+
+![Screenshot 2023-04-28 121405](https://user-images.githubusercontent.com/80109965/235837774-d66dd72f-0eb9-4351-8005-c8e329e17f57.png)
+
+5. Select "Use Custom", then select a custom.img from your computer.
+
+![Screenshot 2023-04-28 121456](https://user-images.githubusercontent.com/80109965/235837876-8d56757c-1396-4885-b10b-2059465e4b75.png)
+
+6. Select the Micro SD card and click "WRITE" (Writing the image will format the Micro SD card. Be careful not to select the wrong storage device, otherwise, the 
+data will be formatted).
+
+![Screenshot 2023-04-28 121718](https://user-images.githubusercontent.com/80109965/235837995-3f3536d0-f8fd-4e07-8446-7a66872cfb26.png)
+
+7. Wait for the writing to finish.
+
+![Screenshot 2023-04-28 122152](https://user-images.githubusercontent.com/80109965/235838019-1081000f-b010-4878-b845-10791be5a364.png)
+
+### WiFi Setup:
+
+Note: This step can be skipped if you are using a network cable connection.
+
+CB1 cannot directly use the Raspberry Pi Imager to set the WiFi name and password like CM4. After the OS image writing is completed, the MicroSD card will have a FAT32 partition recognized by the computer, find "system.cfg"
+
+Open it with Notepad, replace WIFI-SSID with your WiFi name, and PASSWORD with 
+your password.
+
+![image](https://user-images.githubusercontent.com/80109965/235838416-f8feccfb-3478-4a32-a9d0-6dded2bc073e.png)
+
+
 ## Process to Install OctoPrint on BTT Manta M4P CB1
 
 Reference for the complete installation process is present in https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspberry-pi-os-debian/2337
