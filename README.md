@@ -7,11 +7,16 @@ Github Releases : [link](https://github.com/bigtreetech/CB1/releases/tag/V2.3.2)
 Follow information [here](https://3dpandme.com/2022/08/14/btt-manta-m4p-cb1-installation-guide-for-voron-0-1/) untill the step you are able to log into the board.
 
 ``` NOTE: Add the USB power jumper to the board before powering it on using the USD C cable. ```
+``` Disclaimer: The above steps are for all versions of BTT Manta M4P/M5P/M8P that uses the BTT CB1 module embedd in it.  ```
 
 
 Referance links:
 
 https://github.com/bigtreetech/Manta-M4P/blob/master/BIGTREETECH_MANTA_M4P_User_Manual.pdf
+
+https://github.com/bigtreetech/Manta-M5P/blob/master/BIGTREETECH%20MANTA%20M5P%20V1.0%20User%20Manual.pdf
+
+https://github.com/bigtreetech/Manta-M8P/blob/master/BIGTREETECH%20MANTA%20M8P%20V1.0%26V1.1%20User%20Manual.pdf
 
 https://github.com/bigtreetech/TFT35-SPI
 
@@ -60,7 +65,7 @@ your password.
 ![image](https://user-images.githubusercontent.com/80109965/235838416-f8feccfb-3478-4a32-a9d0-6dded2bc073e.png)
 
 
-## Process to Install OctoPrint on BTT Manta M4P CB1
+## Process to Install OctoPrint on BTT Manta CB1
 
 Reference for the complete installation process is present in https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspberry-pi-os-debian/2337
 
@@ -227,7 +232,7 @@ Note: In usual cases of connecting Klipper when connecting with a regular Raspbe
 
 5. In the main settings tab, select `Webcam & Timelapse` tab, under the `Webcam` section, check on the `Enable webcam support`. Below it, in the `Stream URL` box, enter in `/webcam/?action=stream` in order to activate the camera stream, if a Pi-based camera is connected.
 
-## Steps to Install Klipper in BTT-M4P-CB1 using KIAUH
+## Steps to Install Klipper in BTT-CB1 using KIAUH
 
 1. Open the SSH server and login into the CB1 and head onto the terminal.
 2. In the terminal, enter in:
@@ -272,6 +277,26 @@ This will redirect to the KIAUH interface. Once you're in the KIAUH interface, t
 ![image](https://user-images.githubusercontent.com/80109965/234788953-0ba800ac-e98b-4c2b-948e-34f4b614d9d9.png)
 
 11. Press `Q` to quit and return to the terminal.
+
+## Steps to install locally forked version of Klipper in BTT-CB1
+
+```
+sudo service klipper stop
+
+# remove current klippy-env environment
+cd ~
+rm -rf klippy-env
+
+# create new venv
+virtualenv -p python3 klippy-env
+```
+
+Then follow the below steps to install Fracktal Works' locally forked Klipper:
+```
+git clone https://github.com/FracktalWorks/klipper
+./klipper/scripts/install-debian.sh
+
+```
 
 ## Steps to Configure Klipper after Installation
 
