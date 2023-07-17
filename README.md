@@ -386,6 +386,29 @@ The following plugins can be found in the `Plugin Manager` in the OctoPrint sett
 
 2. `Upload Anything`
 
+## To resolve Wifi connecting issues via TouchUI
+
+In case the WiFi selection of different networks in the TouchUI is not getting connected, or maybe a bug coming up, such as the WiFi connects initially, but later on it defaults back to older network when rechecked, then follow the steps below:
+
+```
+sudo nano /lib/systemd/system/wpa_supplicant.service
+```
+
+Find the following line:
+
+```
+ExecStart=/sbin/wpa_supplicant -u -s -O /run/wpa_supplicant
+```
+
+Change it to
+
+```
+ExecStart=/sbin/wpa_supplicant -u -s -iwlan0 -c/etc/wpa_supplicant/wpa_supplicant.conf
+```
+
+Reboot Manta/CB1 to apply changes.
+
+
 ## To remove boot messages from the screen on startup
 
 In order to remove the boot messages on the screen on startup, SSH into the CB1 and open the terminal.
