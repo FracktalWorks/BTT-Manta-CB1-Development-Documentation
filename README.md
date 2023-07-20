@@ -352,11 +352,13 @@ computer using the ssh application.
 
 2. Similarly, generate the serial ID by typing in 'ls /dev/serial/by-id/`, and it will still generate an ID. Copy down the ID for future uses and purposes.
 
-3. The flashing and updating of firmware using the DFU method may not be possible, due to reasons giving error during the `make flash FLASH_DEVICE= /dev/serial/by-id/xxx` process, where it does not recognise the serial ID, but this does not cause any issues in the future.
+3. The flashing and updating of firmware using the DFU method may not be possible, due to reasons giving error during the `make flash FLASH_DEVICE=/dev/serial/by-id/xxx` process, where it does not recognise the serial ID, but this does not cause any issues in the future.
 
 4. The generated serial ID can still be put in the printer.cfg, which was generated previously itself when klipper was flashed.
 
 ## OctoKlipper plug-in installing and setting up
+
+### Settings to do when Klipper was installed via KIAUH.
 
 1. Initially, in the terminal of the SSH server terminal, install the wheel package of the Octoprint, for smooth install of the OctoKlipper plug-in, using the command `~/OctoPrint/venv/bin/pip install wheel`. After installation, head back to IP-address of the OctoPrint.
 
@@ -377,6 +379,24 @@ computer using the ssh application.
 9. In the `Klipper Base Config Filename` write in the filename as `printer.cfg`.
 
 10. In the `Klipper Log File` enter the pathway as `/home/biqu/printer_data/logs/klippy.log`, as the log file is present in this directory. this will access the `printer.cfg` file that is present in this directory.
+
+### Settings to do when the local Fracktal forked version of Klipper is installed.
+
+1. Follow the process till Step `4`. Then the settings that are to be made are as follows.
+
+2. In the OctoKlipper tab, under the `Basic` section, update the serial port to `/tmp/printer`
+
+3. Deselect the `Replace Connection Panel` in order to not replace the other connection options that are available in the Connection tab.
+
+4. Select the `Show Short Messages 'on NavBar' and 'on SideBar'`.
+
+5. Under the `Klipper Config Directory` box, enter the pathway as `/home/biqu` or `/~`.
+
+6. In the `Klipper Base Config Filename` write in the filename as `printer.cfg`.
+
+7. In the `Klipper Log File` enter the pathway as `/tmp/klippy.log`
+
+8. Make sure that, the `/tmp/printer` is present under `Additional serial ports` under `Serial Connection` in the `Octoprint Settings` or `Wrench` symbol
 
 ## Other Plugins required for OctoPrint:
 
